@@ -32,6 +32,9 @@
 - Añadir el presupuesto de esa área en el archivo **BUDGET.md**. *(ver ejemplo 1)*
 - Añadir las IPs en el archivo **README.md**. *(ver ejemplo 2)*
 
+> [!NOTE]
+> El manual del proyecto será el archivo **README.md** ya que es lo primero que aparece.
+
 ## Ejemplo 1:
 ```markdown
 | Articulo     | Cantidad | Precio    | Subtotal  |
