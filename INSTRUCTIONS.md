@@ -24,6 +24,11 @@
 |--------------|------|-----------------|
 | Recepción    | 57   | 192.168.57.0/24 |
 
+## VTPs:
+
+- Usar el dominio `G24_technet`
+- Usar password `secure2025`
+
 # Instrucciones:
 
 - Crea un área con los estándares previos
