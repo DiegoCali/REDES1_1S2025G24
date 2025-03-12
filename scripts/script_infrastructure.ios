@@ -1,0 +1,100 @@
+! -------------- INFRASTRUCTURE --------------
+! MSW8: Configurar como cliente VTP, modo troncal, STP y LACP
+enable
+configure terminal
+    hostname MSW8
+    vtp version 2
+    vtp mode client
+    vtp domain G24_technet
+    vtp password secure2025
+    interface FastEthernet 0/1
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit
+    interface FastEthernet 0/2
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit
+    
+
+    spanning-tree mode pvst
+    spanning-tree vlan 17
+    spanning-tree vlan 27
+    spanning-tree vlan 37
+    spanning-tree vlan 47
+
+    interface Port-channel 2
+        description LACP con Infraestructura/Backbone
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit
+    interface range FastEthernet 0/11-13
+        channel-group 2 mode active
+        exit
+
+    do write
+    exit 
+
+
+! SW6: Configurar como cliente VTP, modo troncal y STP
+enable
+configure terminal
+    hostname SW6
+    vtp version 2
+    vtp mode client
+    vtp domain G24_technet
+    vtp password secure2025
+
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 47
+        exit
+    interface FastEthernet 0/2
+        switchport mode access
+        switchport access vlan 27
+        exit
+
+    interface FastEthernet 0/3
+        switchport mode trunk
+        exit
+    
+    
+    spanning-tree mode pvst
+    spanning-tree vlan 17
+    spanning-tree vlan 27
+    spanning-tree vlan 37
+    spanning-tree vlan 47
+
+    do write
+    exit
+
+! SW7: Configurar como cliente VTP, modo troncal y STP
+enable
+configure terminal
+    hostname SW7
+    vtp version 2
+    vtp mode client
+    vtp domain G24_technet
+    vtp password secure2025
+
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 17
+        exit
+    interface FastEthernet 0/2
+        switchport mode access
+        switchport access vlan 47
+        exit
+    
+    interface FastEthernet 0/3
+        switchport mode trunk
+        exit
+    
+    spanning-tree mode pvst
+    spanning-tree vlan 17
+    spanning-tree vlan 27
+    spanning-tree vlan 37
+    spanning-tree vlan 47
+
+    do write
+    exit
