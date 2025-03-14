@@ -23,6 +23,7 @@ configure terminal
         switchport mode trunk
         exit    
     spanning-tree mode pvst
+    spanning-tree vlan 17, 27, 37, 47
     do write
     exit
 ! SW1: configurar como cliente y modo troncal
@@ -36,7 +37,17 @@ configure terminal
     interface FastEthernet 0/10                
         switchport mode trunk
         exit
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 37
+        exit
+    interface FastEthernet 0/2
+        switchport mode access
+        switchport access vlan 17
+        exit
     do write
+    spanning-tree mode pvst
+    spanning-tree vlan 17, 27, 37, 47
     exit
 ! SW2: configurar como cliente y modo troncal
 enable
@@ -50,6 +61,12 @@ configure terminal
         switchport mode trunk
         exit
     do write
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 47
+        exit
+    spanning-tree mode pvst
+    spanning-tree vlan 17, 27, 37, 47
     exit
 ! SW3: configurar como cliente y modo troncal
 enable
@@ -62,7 +79,13 @@ configure terminal
     interface FastEthernet 0/10                
         switchport mode trunk
         exit
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 27
+        exit
     do write
+    spanning-tree mode pvst
+    spanning-tree vlan 17, 27, 37, 47
     exit
 ! SW4: configurar como cliente y modo troncal
 enable
@@ -75,6 +98,16 @@ configure terminal
     interface FastEthernet 0/10                
         switchport mode trunk
         exit
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 37
+        exit
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 17
+        exit
+    spanning-tree mode pvst
+    spanning-tree vlan 17, 27, 37, 47
     do write
     exit
 ! SW5: configurar como transparente y modo troncal
@@ -83,10 +116,19 @@ configure terminal
     hostname SW5
     vtp version 2
     vtp mode transparent
+    vlan 57
+        name Recepcion
+        exit
     interface FastEthernet 0/10                
         switchport mode trunk
         exit
-    do write
+    interface range FastEthernet 0/1 - 4
+        switchport mode access
+        switchport access vlan 57
+        exit
+    spanning-tree mode pvst
+    spanning-tree vlan 17, 27, 37, 47
+    do write    
     exit
 ! MSW5: configurar como cliente, modo troncal y stp
 enable
@@ -113,6 +155,7 @@ configure terminal
         switchport mode trunk
         exit   
     spanning-tree mode pvst
+    spanning-tree vlan 17,27,37,47
     do write
     exit
 ! MSW6: configurar como cliente, modo troncal y stp
@@ -148,6 +191,7 @@ configure terminal
         switchport mode trunk
         exit   
     spanning-tree mode pvst
+    spanning-tree vlan 17, 27, 37, 47
     do write
     exit
 ! MSW7: configurar como cliente, modo troncal y stp
@@ -175,5 +219,6 @@ configure terminal
         switchport mode trunk
         exit   
     spanning-tree mode pvst
+    spanning-tree vlan 17, 27, 37, 47
     do write
     exit

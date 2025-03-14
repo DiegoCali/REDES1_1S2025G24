@@ -1,0 +1,115 @@
+! MSW11: configurar cliente, modo troncal y stp
+enable
+configure terminal
+    hostname MSW11
+    vtp version 2
+    vtp mode client
+    vtp domain G24_technet
+    vtp password secure2025
+    interface FastEthernet 0/1
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit
+    interface FastEthernet 0/2
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit
+    spanning-tree mode pvst
+    spanning-tree vlan 17
+    spanning-tree vlan 27
+    spanning-tree vlan 37
+    spanning-tree vlan 47
+
+    interface Port-Channel 3
+        description PAGP con Desarrollo/Backbone        
+        exit
+    interface range FastEthernet 0/11-13
+        channel-group 3 mode auto
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit
+
+    do write
+    exit
+! SW8: configurar cliente, modo troncal y stp
+enable
+configure terminal
+    hostname SW8
+    vtp version 2
+    vtp mode client
+    vtp domain G24_technet
+    vtp password secure2025
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 47
+        exit
+    interface FastEthernet 0/2
+        switchport mode access
+        switchport access vlan 17
+        exit
+    interface FastEthernet 0/10
+        switchport mode trunk
+        exit
+    interface FastEthernet 0/11
+        switchport mode trunk
+        exit
+    spanning-tree mode pvst
+    spanning-tree vlan 17,27,37,47
+    do write
+    exit
+! SW9: configurar cliente, modo troncal y stp
+enable
+configure terminal
+    hostname SW9
+    vtp version 2
+    vtp mode client
+    vtp domain G24_technet
+    vtp password secure2025
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 27
+        exit
+    interface FastEthernet 0/2
+        switchport mode access
+        switchport access vlan 47
+        exit
+    interface FastEthernet 0/10
+        switchport mode trunk
+        exit
+    interface FastEthernet 0/11
+        switchport mode trunk
+        exit
+    spanning-tree mode pvst
+    spanning-tree vlan 17,27,37,47
+    do write
+    exit
+! SW10: configurar cliente, modo troncal y stp
+enable
+configure terminal
+    hostname SW10
+    vtp version 2
+    vtp mode client
+    vtp domain G24_technet
+    vtp password secure2025
+    interface FastEthernet 0/1
+        switchport mode access
+        switchport access vlan 17
+        exit
+    interface FastEthernet 0/2
+        switchport mode access
+        switchport access vlan 27
+        exit
+    interface FastEthernet 0/2
+        switchport mode access
+        switchport access vlan 37
+        exit
+    interface FastEthernet 0/10
+        switchport mode trunk
+        exit
+    interface FastEthernet 0/11
+        switchport mode trunk
+        exit
+    spanning-tree mode pvst
+    spanning-tree vlan 17,27,37,47
+    do write
+    exit
