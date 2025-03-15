@@ -48,3 +48,20 @@
 | Desarrollo      | Soporte Tecnico 2 | 192.168.27.2    |
 | Desarrollo      | Seguridad 7       | 192.168.47.7    |
 | Desarrollo      | Gerencia 5        | 192.168.37.5    |
+
+## Capturas de Ping
+
+### Ping 1
+
+![ping_1](./imgs/ping_1.png)
+
+### Ping 2
+
+![ping_2](./imgs/ping_2.png)
+
+### Ping 3
+
+![ping_3](./imgs/ping_3.png)
+
+### Ping 4
+![ping_4](./imgs/ping_4.png)
