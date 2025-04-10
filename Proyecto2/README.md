@@ -250,7 +250,26 @@ conf t
 ```bash
 enable
 conf t
-    hostname MS8
+    ip routing
+    hostname MS8    
+    interface range FastEthernet 0/1-3
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit
+    interface vlan 17
+        ip address 192.168.24.1 255.255.255.192
+        exit
+    interface vlan 27
+        ip address 192.168.24.65 255.255.255.224
+        exit
+    interface vlan 37
+        ip address 192.168.24.97 255.255.255.248
+        exit
+    interface vlan 47
+        ip address 192.168.24.105 255.255.255.128
+        exit
+    do write
+    exit
 ```
 
 ## CUNOROC:
@@ -300,7 +319,7 @@ conf t
     vlan 47
         name Biblioteca
         exit
-    interface FastEthernet 0/10
+    interface GigabitEthernet 0/10
         switchport mode trunk
         exit
     interface FastEthernet 0/11
@@ -338,10 +357,44 @@ conf t
 ```
 
 ### Router:
+> [!NOTE]
+> Los routers que indica el documento son los `1941`, los que tienen comunicación WAN es necesarios agregarles el modulo: `HWIC-2T`.
+
 - R0:
 ```bash
 enable
 conf t
+    hostname R0
+    interface GigabitEthernet 0/0/0
+        no shutdown
+        exit
+    interface GigabitEthernet 0/0/0.17
+        encaspulation dot1Q 17
+        ip address 192.148.24.1 255.255.255.192
+        exit
+    interface GigabitEthernet 0/0/0.27
+        encaspulation dot1Q 27
+        ip address 192.148.24.65 255.255.255.224
+        exit
+    interface GigabitEthernet 0/0/0.37
+        encaspulation dot1Q 37
+        ip address 192.148.24.97 255.255.255.240
+        exit
+    interface GigabitEthernet 0/0/0.47
+        encaspulation dot1Q 47
+        ip address 192.148.24.113 255.255.255.128
+        exit
+    interface serial 0/1/0
+        ...
+        no shutdown
+        exit
+    interface serial 0/1/1
+        ...
+        no shutdown
+        exit
+    ...
+    do write
+    exit
 ```
 
 ## CUNOC:
@@ -467,12 +520,86 @@ conf t
 ```bash
 enable
 conf t
+    hostname MS1
+    ip routing
+    interface FastEthernet 0/1
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit  
+    interface FastEthernet 0/10
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        ...
+        exit  
+    interface vlan 17
+        ip address 172.16.24.2 255.255.255.192
+        standby 17 ip 172.16.24.1
+        standby 17 priority 110
+        standby 17 preempt
+        no shutdown
+    interface vlan 27
+        ip address 172.16.24.66 255.255.255.192
+        standby 27 ip 172.16.24.65
+        standby 27 priority 110
+        standby 27 preempt
+        no shutdown
+    interface vlan 37
+        ip address 172.16.24.130 255.255.255.248
+        standby 37 ip 172.16.24.129
+        standby 37 priority 110
+        standby 37 preempt
+        no shutdown
+    interface vlan 47
+        ip address 172.16.24.138 255.255.255.192
+        standby 47 ip 172.16.24.137
+        standby 47 priority 110
+        standby 47 preempt
+        no shutdown
+    do write
+    exit
 ```
 
 - MS2:
 ```bash
 enable
 conf t
+    hostname MS2
+    ip routing
+    interface FastEthernet 0/1
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        exit  
+    interface FastEthernet 0/10
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        ...
+        exit  
+    interface vlan 17
+        ip address 172.16.24.3 255.255.255.192
+        standby 17 ip 172.16.24.1
+        standby 17 priority 100
+        standby 17 preempt
+        no shutdown
+    interface vlan 27
+        ip address 172.16.24.67 255.255.255.192
+        standby 27 ip 172.16.24.65
+        standby 27 priority 100
+        standby 27 preempt
+        no shutdown
+    interface vlan 37
+        ip address 172.16.24.131 255.255.255.248
+        standby 37 ip 172.16.24.129
+        standby 37 priority 100
+        standby 37 preempt
+        no shutdown
+    interface vlan 47
+        ip address 172.16.24.139 255.255.255.192
+        standby 47 ip 172.16.24.137
+        standby 47 priority 100
+        standby 47 preempt
+        no shutdown
+    do write
+    exit
 ```
 
 ## Central:
@@ -518,6 +645,28 @@ conf t
 ```bash
 enable
 conf t
+    hostname R7
+    interface GigabitEthernet 0/0/0
+        no shutdown
+        exit
+    interface GigabitEthernet 0/0/1
+        no shutdown
+        exit
+    interface GigabitEthernet 0/0/0.57
+        encaspulation dot1Q 57
+        ip address 192.120.24.1 255.255.255.0
+        exit
+    interface GigabitEthernet 0/0/0.67
+        encaspulation dot1Q 67
+        ip address 192.121.24.1 255.255.255.0
+        exit
+    interface GigabitEthernet 0/0/0.77
+        encaspulation dot1Q 77
+        ip address 192.122.24.1 255.255.255.0
+        exit
+    ...
+    do write 
+    exit
 ```
 
 ## CUM:
