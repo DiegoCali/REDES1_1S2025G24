@@ -723,11 +723,87 @@ conf t
 ```bash
 enable
 conf t
+    hostname R4
+    interface GigagabitEthernet 0/0/0.17
+        encapsulation dot1Q 17
+        ip address 192.158.24.2 255.255.255.192
+        standby 17 ip 192.158.24.1
+        standby 17 priority 110
+        standby 17 preempt
+        no shutdown
+        exit
+    interface GigagabitEthernet 0/0/0.27
+        encapsulation dot1Q 27
+        ip address 192.158.24.66 255.255.255.224
+        standby 27 ip 192.158.24.65
+        standby 27 priority 110
+        standby 27 preempt
+        no shutdown
+        exit
+    interface GigagabitEthernet 0/0/0.37
+        encapsulation dot1Q 37
+        ip address 192.158.24.98 255.255.255.240
+        standby 37 ip 192.158.24.97
+        standby 37 priority 110
+        standby 37 preempt
+        no shutdown
+        exit
+    interface GigagabitEthernet 0/0/0.47
+        encapsulation dot1Q 47
+        ip address 192.158.24.114 255.255.255.128
+        standby 47 ip 192.158.24.113
+        standby 47 priority 110
+        standby 47 preempt
+        no shutdown
+        exit
+    interface GigabitEthernet 0/0/1
+        no shutdown
+        exit
+    do write
+    exit
 ```
 - R5:
 ```bash
 enable
 conf t
+    hostname R5
+    interface GigagabitEthernet 0/0/0.17
+        encapsulation dot1Q 17
+        ip address 192.158.24.3 255.255.255.192
+        standby 17 ip 192.158.24.1
+        standby 17 priority 100
+        standby 17 preempt
+        no shutdown
+        exit
+    interface GigagabitEthernet 0/0/0.27
+        encapsulation dot1Q 27
+        ip address 192.158.24.67 255.255.255.224
+        standby 27 ip 192.158.24.65
+        standby 27 priority 100
+        standby 27 preempt
+        no shutdown
+        exit
+    interface GigagabitEthernet 0/0/0.37
+        encapsulation dot1Q 37
+        ip address 192.158.24.99 255.255.255.240
+        standby 37 ip 192.158.24.97
+        standby 37 priority 100
+        standby 37 preempt
+        no shutdown
+        exit
+    interface GigagabitEthernet 0/0/0.47
+        encapsulation dot1Q 47
+        ip address 192.158.24.115 255.255.255.128
+        standby 47 ip 192.158.24.113
+        standby 47 priority 100
+        standby 47 preempt
+        no shutdown
+        exit
+    interface GigabitEthernet 0/0/1
+        no shutdown
+        exit
+    do write
+    exit
 ```
 
 # BackBone:
