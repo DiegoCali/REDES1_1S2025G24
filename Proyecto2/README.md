@@ -365,30 +365,30 @@ conf t
 enable
 conf t
     hostname R0
-    interface GigabitEthernet 0/0/0
+    interface GigabitEthernet 0/0
         no shutdown
         exit
-    interface GigabitEthernet 0/0/0.17
+    interface GigabitEthernet 0/0.17
         encaspulation dot1Q 17
         ip address 192.148.24.1 255.255.255.192
         exit
-    interface GigabitEthernet 0/0/0.27
+    interface GigabitEthernet 0/0.27
         encaspulation dot1Q 27
         ip address 192.148.24.65 255.255.255.224
         exit
-    interface GigabitEthernet 0/0/0.37
+    interface GigabitEthernet 0/0.37
         encaspulation dot1Q 37
         ip address 192.148.24.97 255.255.255.240
         exit
-    interface GigabitEthernet 0/0/0.47
+    interface GigabitEthernet 0/0.47
         encaspulation dot1Q 47
         ip address 192.148.24.113 255.255.255.128
         exit
-    interface serial 0/1/0
+    interface serial 0/0/0
         ...
         no shutdown
         exit
-    interface serial 0/1/1
+    interface serial 0/0/1
         ...
         no shutdown
         exit
@@ -646,21 +646,21 @@ conf t
 enable
 conf t
     hostname R7
-    interface GigabitEthernet 0/0/0
+    interface GigabitEthernet 0/0
         no shutdown
         exit
     interface GigabitEthernet 0/0/1
         no shutdown
         exit
-    interface GigabitEthernet 0/0/0.57
+    interface GigabitEthernet 0/0.57
         encaspulation dot1Q 57
         ip address 192.120.24.1 255.255.255.0
         exit
-    interface GigabitEthernet 0/0/0.67
+    interface GigabitEthernet 0/0.67
         encaspulation dot1Q 67
         ip address 192.121.24.1 255.255.255.0
         exit
-    interface GigabitEthernet 0/0/0.77
+    interface GigabitEthernet 0/0.77
         encaspulation dot1Q 77
         ip address 192.122.24.1 255.255.255.0
         exit
@@ -724,7 +724,7 @@ conf t
 enable
 conf t
     hostname R4
-    interface GigagabitEthernet 0/0/0.17
+    interface GigagabitEthernet 0/0.17
         encapsulation dot1Q 17
         ip address 192.158.24.2 255.255.255.192
         standby 17 ip 192.158.24.1
@@ -732,7 +732,7 @@ conf t
         standby 17 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0/0.27
+    interface GigagabitEthernet 0/0.27
         encapsulation dot1Q 27
         ip address 192.158.24.66 255.255.255.224
         standby 27 ip 192.158.24.65
@@ -740,7 +740,7 @@ conf t
         standby 27 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0/0.37
+    interface GigagabitEthernet 0/0.37
         encapsulation dot1Q 37
         ip address 192.158.24.98 255.255.255.240
         standby 37 ip 192.158.24.97
@@ -748,7 +748,7 @@ conf t
         standby 37 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0/0.47
+    interface GigagabitEthernet 0/0.47
         encapsulation dot1Q 47
         ip address 192.158.24.114 255.255.255.128
         standby 47 ip 192.158.24.113
@@ -767,7 +767,7 @@ conf t
 enable
 conf t
     hostname R5
-    interface GigagabitEthernet 0/0/0.17
+    interface GigagabitEthernet 0/0.17
         encapsulation dot1Q 17
         ip address 192.158.24.3 255.255.255.192
         standby 17 ip 192.158.24.1
@@ -775,7 +775,7 @@ conf t
         standby 17 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0/0.27
+    interface GigagabitEthernet 0/0.27
         encapsulation dot1Q 27
         ip address 192.158.24.67 255.255.255.224
         standby 27 ip 192.158.24.65
@@ -783,7 +783,7 @@ conf t
         standby 27 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0/0.37
+    interface GigagabitEthernet 0/0.37
         encapsulation dot1Q 37
         ip address 192.158.24.99 255.255.255.240
         standby 37 ip 192.158.24.97
@@ -791,7 +791,7 @@ conf t
         standby 37 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0/0.47
+    interface GigagabitEthernet 0/0.47
         encapsulation dot1Q 47
         ip address 192.158.24.115 255.255.255.128
         standby 47 ip 192.158.24.113
@@ -807,3 +807,8 @@ conf t
 ```
 
 # BackBone:
+
+- ID de red 10.0.0.0/24
+- Método de segmentación: FSLM
+
+# RIP: serial
