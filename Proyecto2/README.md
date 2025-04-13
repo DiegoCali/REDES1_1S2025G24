@@ -385,14 +385,22 @@ conf t
         ip address 192.148.24.113 255.255.255.128
         exit
     interface serial 0/0/0
-        ...
+        ip address 10.0.0.14 255.255.255.252
         no shutdown
         exit
     interface serial 0/0/1
-        ...
+        ip address 10.0.0.21 255.255.255.252
         no shutdown
         exit
-    ...
+    router rip
+        version 2
+        no auto-summary        
+        network 10.0.0.12
+        network 10.0.0.20
+        network 192.148.24.0
+        ! network 192.148.24.64
+        ! network 192.148.24.96
+        ! network 192.148.24.112        
     do write
     exit
 ```
@@ -529,7 +537,7 @@ conf t
     interface FastEthernet 0/10
         switchport trunk encapsulation dot1q
         switchport mode trunk
-        ...
+        ip address 10.0.0.1 255.255.255.252        
         exit  
     interface vlan 17
         ip address 172.16.24.2 255.255.255.192
@@ -555,6 +563,14 @@ conf t
         standby 47 priority 110
         standby 47 preempt
         no shutdown
+    router rip
+        version 2
+        no auto-summary
+        network 10.0.0.0
+        network 172.16.24.0
+        ! network 172.16.24.64
+        ! network 172.16.24.128
+        ! network 172.16.24.136
     do write
     exit
 ```
@@ -572,7 +588,7 @@ conf t
     interface FastEthernet 0/10
         switchport trunk encapsulation dot1q
         switchport mode trunk
-        ...
+        ip address 10.0.0.5 255.255.255.252
         exit  
     interface vlan 17
         ip address 172.16.24.3 255.255.255.192
@@ -598,6 +614,15 @@ conf t
         standby 47 priority 100
         standby 47 preempt
         no shutdown
+    router rip
+        version 2
+        no auto-summary
+        network 10.0.0.4
+        network 172.16.24.0
+        ! network 172.16.24.64
+        ! network 172.16.24.128
+        ! network 172.16.24.136
+        exit
     do write
     exit
 ```
@@ -812,3 +837,115 @@ conf t
 - Método de segmentación: FSLM
 
 # RIP: serial
+
+> [!NOTE]
+> Para la red en RIP se puede poner solo el ID de red general
+>  Sin embargo si se tienen problemas se puede especificar las otrass redes.
+
+ De     | a     | ID de red        | Dirección IP |
+--------|-------|------------------|--------------|
+MS1     | MS0   | 172.16.24.0/24   | ---          |
+MS1     | MS3   | 10.0.0.0/30      | 10.0.0.1     |
+MS3     | MS1   | 10.0.0.0/30      | 10.0.0.2     |
+MS2     | MS3   | 10.0.0.4/30      | 10.0.0.5     |
+MS3     | MS2   | 10.0.0.4/30      | 10.0.0.6     |
+MS3     | R1    | 10.0.0.8/30      | 10.0.0.9     |
+R1      | MS3   | 10.0.0.8/30      | 10.0.0.10    |
+R1      | R0    | 10.0.0.12/30     | 10.0.0.13    |
+R0      | R1    | 10.0.0.12/30     | 10.0.0.14    |
+R1      | R2    | 10.0.0.16/30     | 10.0.0.17    |
+R2      | R1    | 10.0.0.16/30     | 10.0.0.18    |
+R0      | SW2   | 192.148.24.0/24  | ---          |
+R0      | R2    | 10.0.0.20/30     | 10.0.0.21    |
+R2      | R0    | 10.0.0.20/30     | 10.0.0.22    |
+
+- MS3:
+```bash
+enable 
+conf t
+    hostname MS3
+    ip routing
+    interface FastEthernet 0/1
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        ip address 10.0.0.2 255.255.255.252
+        exit
+    interface FastEthernet 0/2
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        ip address 10.0.0.5 255.255.255.252
+        exit
+    interface GigabitEthernet 0/1
+        switchport trunk encapsulation dot1q
+        switchport mode trunk
+        ip address 10.0.0.9 255.255.255.252
+        exit
+    router rip
+        version 2
+        no auto-summary
+        network 10.0.0.0
+        network 10.0.0.4
+        network 10.0.0.8
+        exit
+    do write
+    exit
+```
+- R1:
+```bash
+enable
+conf t
+    hostname R1
+    interface GigabitEthernet 0/0
+        no shutdown
+        ip address 10.0.0.10 255.255.255.252
+        exit
+    interface serial 0/0/0
+        ip address 10.0.0.13 255.255.255.252
+        no shutdown
+        exit
+    interface serial 0/0/1
+        ip address 10.0.0.17 255.255.255.252
+        no shutdown
+        exit
+    router rip 
+        version 2
+        no auto-summary
+        network 10.0.0.8
+        network 10.0.0.12
+        network 10.0.0.16
+        exit
+    do write
+    exit
+```
+- R2:
+```bash
+enable
+conf t
+    hostname R2
+    interface GigabitEthernet 0/0
+        no shutdown
+        ...
+        exit
+    interface serial 0/0/0 
+        ip address 10.0.0.18 255.255.255.252
+        no shutdown
+        exit
+    interface serial 0/0/1
+        ip address 10.0.0.22 255.255.255.252
+        no shutdown
+        exit
+    router rip 
+        version 2
+        no auto-summary
+        ...
+        network 10.0.0.16
+        network 10.0.0.20
+        redistribute
+        exit
+    ...
+    ...
+    router rip
+        redistribute ospf metric 2
+    do write
+    exit
+```
