@@ -117,6 +117,9 @@ predeterminadas para todas las VLANs de la red
 | Server1       | 67         | 35       |
 | Server2       | 77         | 5        |
 
+> [!NOTE]
+> ID de red de central 192.120.0.0/14
+
 # CUM:
 
 ## Red:
@@ -836,7 +839,7 @@ conf t
 - ID de red 10.0.0.0/24
 - Método de segmentación: FSLM
 
-# RIP: serial
+# RIP: 
 
 > [!NOTE]
 > Para la red en RIP se puede poner solo el ID de red general
@@ -924,7 +927,7 @@ conf t
     hostname R2
     interface GigabitEthernet 0/0
         no shutdown
-        ...
+        ip address 10.0.0.25 255.255.255.252
         exit
     interface serial 0/0/0 
         ip address 10.0.0.18 255.255.255.252
@@ -936,16 +939,206 @@ conf t
         exit
     router rip 
         version 2
-        no auto-summary
-        ...
+        no auto-summary        
         network 10.0.0.16
-        network 10.0.0.20
+        network 10.0.0.20        
         redistribute
         exit
-    ...
-    ...
+    router ospf 1
+        network 10.0.0.24 0.0.0.3 area 0
+        exit
     router rip
         redistribute ospf metric 2
+        exit
+    router ospf 1
+        redistribute rip subnets
+        exit
+    do write
+    exit
+```
+
+# OSPF
+
+> [!NOTE]
+> Tener en cuenta de MS4 a MS7 existen EtherChannels.
+
+ De     | a     | ID de red        | Dirección IP |
+--------|-------|------------------|--------------|
+R2      | R3    | 10.0.0.24/30     | 10.0.0.25    |
+R3      | R2    | 10.0.0.24/30     | 10.0.0.26    |
+R3      | MS4   | 10.0.0.28/30     | 10.0.0.29    |
+MS4     | R3    | 10.0.0.28/30     | 10.0.0.30    |
+MS4     | MS5   | 10.0.0.32/30     | 10.0.0.33    |
+MS5     | MS4   | 10.0.0.32/30     | 10.0.0.34    |
+MS4     | MS6   | 10.0.0.36/30     | 10.0.0.37    |
+MS6     | MS4   | 10.0.0.36/30     | 10.0.0.38    |
+MS5     | R7    | 192.120.24.0/14  | ---          |
+MS5     | MS7   | 10.0.0.40/30     | 10.0.0.41    |
+MS7     | MS5   | 10.0.0.40/30     | 10.0.0.42    |
+MS6     | MS7   | 10.0.0.44/30     | 10.0.0.45    |
+MS7     | MS6   | 10.0.0.44/30     | 10.0.0.46    |
+MS6     | R4    | 10.0.0.48/30     | 10.0.0.49    |
+R4      | MS6   | 10.0.0.48/30     | 10.0.0.50    |
+MS6     | R5    | 10.0.0.52/30     | 10.0.0.53    |
+R5      | MS6   | 10.0.0.52/30     | 10.0.0.54    |
+
+- R3:
+```bash
+enable
+conf t
+    hostname R3
+    interface GigabitEthernet 0/0
+        no shutdown
+        ip address 10.0.0.26 255.255.255.252
+        exit
+    interface GigabitEthernet 0/1
+        no shutdown
+        ip address 10.0.0.29 255.255.255.252
+        exit
+    router ospf 1
+        network 10.0.0.24 0.0.0.3 area 0
+        network 10.0.0.28 0.0.0.3 area 1
+        exit
+    do write
+    exit
+```
+- MS4:
+```bash
+enable
+conf t
+    hostname MS4
+    ip routing
+    interface GigabitEthernet 0/1
+        no shutdown
+        ip address 10.0.0.30 255.255.255.252
+        exit
+    interface range FastEthernet 0/1-3
+        channel-group 1 mode active
+        exit
+    interface port-channel 1        
+        no switchport
+        ip address 10.0.0.33 255.255.255.252
+        exit
+    interface range FastEthernet 0/4-6
+        channel-group 2 mode active
+        exit
+    interface port-channel 2        
+        no switchport
+        ip address 10.0.0.37 255.255.255.252
+        exit
+    router ospf 1
+        network 10.0.0.28 0.0.0.3 area 0
+        network 10.0.0.32 0.0.0.3 area 1
+        network 10.0.0.36 0.0.0.3 area 2
+        exit
+    do write
+    exit
+```
+- MS5:
+```bash
+enable
+conf t
+    hostname MS5
+    ip routing
+    interface GigabitEthernet 0/1
+        no shutdown
+        exit
+    interface range FastEthernet 0/1-3
+        channel-group 1 mode passive
+        exit
+    interface port-channel 1
+        no switchport
+        ip address 10.0.0.34 255.255.255.252
+        exit
+    interface range FastEthernet 0/4-6
+        channel-group 2 mode active
+        exit
+    interface port-channel 2
+        no switchport
+        ip address 10.0.0.41 255.255.255.252
+        exit
+    router ospf 1
+        network 192.120.24.0 0.3.255.25 area 0
+        network 10.0.0.32 0.0.0.3 area 1
+        network 10.0.0.40 0.0.0.3 area 2
+        exit
+    do write
+    exit
+```
+- MS6:
+```bash
+enable
+conf t
+    hostname MS6
+    ip routing
+    interface GigabitEthernet 0/1
+        no shutdown
+        ip address 10.0.0.49 255.255.255.252
+        exit
+    interface GigabitEthernet 0/2
+        no shutdown
+        ip address 10.0.0.53 255.255.255.252
+        exit
+    interface range FastEthernet 0/1-3
+        channel-group 1 mode passive
+        exit
+    interface port-channel 1
+        no switchport
+        ip address 10.0.0.38 255.255.255.252
+        exit
+    interface range FastEthernet 0/4-6
+        channel-group 2 mode active
+        exit
+    interface port-channel 2
+        no switchport
+        ip address 10.0.0.45 255.255.255.252
+        exit
+    router ospf 1
+        network 10.0.0.48 0.0.0.3 area 0
+        network 10.0.0.52 0.0.0.3 area 1
+        network 10.0.0.36 0.0.0.3 area 2
+        network 10.0.0.44 0.0.0.3 area 3
+        exit
+    do write
+    exit
+```
+- MS7:
+```bash
+enable
+conf t
+    hostname MS7
+    ip routing
+    interface GigabitEthernet 0/1
+        no shutdown
+        ...
+        exit
+    interface range FastEthernet 0/1-3
+        channel-group 1 mode passive
+        exit
+    interface port-channel 1
+        no switchport
+        ip address 10.0.0.42 255.255.255.252
+        exit
+    interface range FastEthernet 0/4-6
+        channel-group 1 mode passive
+        exit
+    interface port-channel 1
+        no switchport
+        ip address 10.0.0.46 255.255.255.252
+        exit
+    router opsf 1
+        network 10.0.0.40 0.0.0.3 area 0
+        network 10.0.0.44 0.0.0.3 area 1        
+        exit
+    router eigrp 100
+        ...
+        exit
+    router ospf 1
+        redistribute eigrp 100 subnets
+        exit
+    router eigrp
+        redistribute ospf 1 metric 10000 100 255 1 1500
+        exit
     do write
     exit
 ```
