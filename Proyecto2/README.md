@@ -794,9 +794,11 @@ conf t
         exit
     interface GigabitEthernet 0/1
         no shutdown
+        ip address 10.0.0.50 255.255.255.252
         exit
     router ospf 1
         network 192.158.24.0 0.0.0.255 area 0
+        network 10.0.0.48 0.0.0.3 area 1
         exit
     do write
     exit
@@ -840,9 +842,11 @@ conf t
         exit
     interface GigabitEthernet 0/1
         no shutdown
+        ip address 10.0.0.54 255.255.255.252
         exit
     router ospf 1
         network 192.158.24.0 0.0.0.255 area 0
+        network 10.0.0.52 0.0.0.3 area 1
         exit
     do write
     exit
