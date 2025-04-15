@@ -255,6 +255,10 @@ enable
 conf t
     ip routing
     hostname MS8    
+    interface GigabitEthernet 0/0
+        no shutdown
+        ip address 10.0.0.70 255.255.255.252
+        exit
     interface range FastEthernet 0/1-3
         switchport trunk encapsulation dot1q
         switchport mode trunk
@@ -270,6 +274,10 @@ conf t
         exit
     interface vlan 47
         ip address 192.168.24.105 255.255.255.128
+        exit
+    router eigrp 100
+        network 192.168.24.0 0.0.0.255
+        network 10.0.0.68 0.0.0.3
         exit
     do write
     exit
@@ -677,22 +685,24 @@ conf t
     interface GigabitEthernet 0/0
         no shutdown
         exit
-    interface GigabitEthernet 0/0/1
+    interface GigabitEthernet 0/1
         no shutdown
+        ip address 10.0.0.58 255.255.255.252
         exit
     interface GigabitEthernet 0/0.57
-        encaspulation dot1Q 57
+        encapsulation dot1Q 57
         ip address 192.120.24.1 255.255.255.0
         exit
     interface GigabitEthernet 0/0.67
-        encaspulation dot1Q 67
+        encapsulation dot1Q 67
         ip address 192.121.24.1 255.255.255.0
         exit
     interface GigabitEthernet 0/0.77
-        encaspulation dot1Q 77
+        encapsulation dot1Q 77
         ip address 192.122.24.1 255.255.255.0
         exit
-    ...
+    ip route 10.0.0.32 255.255.255.252 10.0.0.57
+    ip route 10.0.0.40 255.255.255.252 10.0.0.57
     do write 
     exit
 ```
@@ -972,7 +982,8 @@ MS4     | MS5   | 10.0.0.32/30     | 10.0.0.33    |
 MS5     | MS4   | 10.0.0.32/30     | 10.0.0.34    |
 MS4     | MS6   | 10.0.0.36/30     | 10.0.0.37    |
 MS6     | MS4   | 10.0.0.36/30     | 10.0.0.38    |
-MS5     | R7    | 192.120.24.0/14  | ---          |
+MS5     | R7    | 10.0.0.56/30     | 10.0.0.57    |
+R7      | MS5   | 10.0.0.56/30     | 10.0.0.58    |
 MS5     | MS7   | 10.0.0.40/30     | 10.0.0.41    |
 MS7     | MS5   | 10.0.0.40/30     | 10.0.0.42    |
 MS6     | MS7   | 10.0.0.44/30     | 10.0.0.45    |
@@ -1041,7 +1052,8 @@ conf t
     hostname MS5
     ip routing
     interface GigabitEthernet 0/1
-        no shutdown
+        no shutdown        
+        ip address 10.0.0.57 255.255.255.252
         exit
     interface range FastEthernet 0/1-3
         channel-group 1 mode passive
@@ -1057,10 +1069,14 @@ conf t
         no switchport
         ip address 10.0.0.41 255.255.255.252
         exit
-    router ospf 1
-        network 192.120.24.0 0.3.255.25 area 0
+    ip route 192.120.24.0 255.255.255.0 10.0.0.58
+    ip route 192.121.24.0 255.255.255.0 10.0.0.58
+    ip route 192.122.24.0 255.255.255.0 10.0.0.58
+    router ospf 1 
+        network 10.0.0.57 0.0.0.3 area 0
         network 10.0.0.32 0.0.0.3 area 1
         network 10.0.0.40 0.0.0.3 area 2
+        redistribute static subnets
         exit
     do write
     exit
@@ -1110,7 +1126,7 @@ conf t
     ip routing
     interface GigabitEthernet 0/1
         no shutdown
-        ...
+        ip address 10.0.0.61 255.255.255.252
         exit
     interface range FastEthernet 0/1-3
         channel-group 1 mode passive
@@ -1120,24 +1136,79 @@ conf t
         ip address 10.0.0.42 255.255.255.252
         exit
     interface range FastEthernet 0/4-6
-        channel-group 1 mode passive
+        channel-group 2 mode passive
         exit
-    interface port-channel 1
+    interface port-channel 2
         no switchport
         ip address 10.0.0.46 255.255.255.252
         exit
-    router opsf 1
+    router ospf 1
         network 10.0.0.40 0.0.0.3 area 0
         network 10.0.0.44 0.0.0.3 area 1        
         exit
     router eigrp 100
-        ...
+        no auto-summary
+        network 10.0.0.60 0.0.0.3
         exit
     router ospf 1
         redistribute eigrp 100 subnets
         exit
-    router eigrp
+    router eigrp 100
         redistribute ospf 1 metric 10000 100 255 1 1500
+        exit
+    do write
+    exit
+```
+
+# EIGRP:
+
+ De     | a     | ID de red        | Dirección IP |
+--------|-------|------------------|--------------|
+MS7     | R9    | 10.0.0.60/30     | 10.0.0.61    |
+R9      | MS7   | 10.0.0.60/30     | 10.0.0.62    |
+R9      | R10   | 10.0.0.64/30     | 10.0.0.65    |
+R10     | R9    | 10.0.0.64/30     | 10.0.0.66    |
+R10     | MS8   | 10.0.0.68/30     | 10.0.0.69    |
+MS8     | R10   | 10.0.0.68/30     | 10.0.0.70    |
+
+- R9:
+```bash
+enable 
+conf t
+    hostname R9
+    interface GigabitEthernet 0/0
+        no shutdown
+        ip address 10.0.0.62 255.255.255.252
+        exit
+    interface GigabitEthernet 0/1
+        no shutdown
+        ip address 10.0.0.65 255.255.255.252
+        exit
+    router eigrp 100
+        no auto-summary
+        network 10.0.0.60 0.0.0.3
+        network 10.0.0.64 0.0.0.3
+        exit
+    do write
+    exit
+```
+- R10:
+```bash
+enable 
+conf t
+    hostname R10
+    interface GigabitEthernet 0/0
+        no shutdown
+        ip address 10.0.0.66 255.255.255.252
+        exit
+    interface GigabitEthernet 0/1
+        no shutdown
+        ip address 10.0.0.69 255.255.255.252
+        exit
+    router eigrp 100
+        no auto-summary
+        network 10.0.0.64 0.0.0.3
+        network 10.0.0.68 0.0.0.3
         exit
     do write
     exit
