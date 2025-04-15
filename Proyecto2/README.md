@@ -159,8 +159,8 @@ conf t
     vtp version 2
     vtp mode client
     vtp domain Grupo24
-    vtp usac2025
-    interface FastEthernet 0/10
+    vtp password usac2025
+    interface FastEthernet 0/10        
         switchport mode trunk
         exit
     interface FastEthernet 0/11
@@ -189,7 +189,7 @@ conf t
     vtp version 2
     vtp mode server
     vtp domain Grupo24
-    vtp usac2025
+    vtp password usac2025
     vlan 17
         name Estudiantes
         exit
@@ -230,7 +230,7 @@ conf t
     vtp version 2
     vtp mode client
     vtp domain Grupo24
-    vtp usac2025
+    vtp password usac2025
     interface FastEthernet 0/10
         switchport mode trunk
         exit
@@ -255,7 +255,7 @@ enable
 conf t
     ip routing
     hostname MS8    
-    interface GigabitEthernet 0/0
+    interface GigabitEthernet 0/1
         no shutdown
         ip address 10.0.0.70 255.255.255.252
         exit
@@ -295,11 +295,11 @@ conf t
     vtp version 2
     vtp mode client
     vtp domain Grupo24
-    vtp usac2025
-    interface FastEthernet 0/10
+    vtp password usac2025
+    interface GigabitEthernet 0/1
         switchport mode trunk
         exit
-    interface FastEthernet 0/11
+    interface FastEthernet 0/10
         switchport mode trunk
         exit
     interface FastEthernet 0/1
@@ -317,7 +317,7 @@ conf t
     vtp version 2
     vtp mode server
     vtp domain Grupo24
-    vtp usac2025
+    vtp password usac2025
     vlan 17
         name Estudiantes
         exit
@@ -330,7 +330,7 @@ conf t
     vlan 47
         name Biblioteca
         exit
-    interface GigabitEthernet 0/10
+    interface FastEthernet 0/10
         switchport mode trunk
         exit
     interface FastEthernet 0/11
@@ -380,20 +380,24 @@ conf t
         no shutdown
         exit
     interface GigabitEthernet 0/0.17
-        encaspulation dot1Q 17
+        encapsulation dot1Q 17
         ip address 192.148.24.1 255.255.255.192
+        no shutdown
         exit
     interface GigabitEthernet 0/0.27
-        encaspulation dot1Q 27
+        encapsulation dot1Q 27
         ip address 192.148.24.65 255.255.255.224
+        no shutdown
         exit
     interface GigabitEthernet 0/0.37
-        encaspulation dot1Q 37
+        encapsulation dot1Q 37
         ip address 192.148.24.97 255.255.255.240
+        no shutdown
         exit
     interface GigabitEthernet 0/0.47
-        encaspulation dot1Q 47
+        encapsulation dot1Q 47
         ip address 192.148.24.113 255.255.255.128
+        no shutdown
         exit
     interface serial 0/0/0
         ip address 10.0.0.14 255.255.255.252
@@ -428,7 +432,7 @@ conf t
     vtp version 2
     vtp mode client
     vtp domain Grupo24
-    vtp usac2025
+    vtp password usac2025
     interface FastEthernet 0/10
         switchport mode trunk
         exit    
@@ -452,7 +456,7 @@ conf t
     vtp version 2
     vtp mode client
     vtp domain Grupo24
-    vtp usac2025
+    vtp password usac2025
     interface FastEthernet 0/10
         switchport mode trunk
         exit    
@@ -472,7 +476,7 @@ conf t
     vtp version 2
     vtp mode client
     vtp domain Grupo24
-    vtp usac2025
+    vtp password usac2025
     interface FastEthernet 0/10
         switchport mode trunk
         exit    
@@ -496,7 +500,7 @@ conf t
     vtp version 2
     vtp mode server
     vtp domain Grupo24
-    vtp usac2025
+    vtp password usac2025
     vlan 17
         name Estudiantes
         exit
@@ -645,10 +649,6 @@ conf t
 enable
 conf t
     hostname SW0
-    vtp version 2
-    vtp mode server
-    vtp domain Grupo24
-    vtp password usac2025
     vlan 57
         name Server0
         exit
@@ -658,7 +658,7 @@ conf t
     vlan 77
         name Server2
         exit
-    interface FastEthernet 0/10        
+    interface GigabitEthernet 0/10        
         switchport mode trunk
         exit 
     interface FastEthernet 0/1
@@ -669,7 +669,7 @@ conf t
         switchport mode access
         switchport access vlan 67
         exit
-    interface FastEthernet 0/2
+    interface FastEthernet 0/3
         switchport mode access
         switchport access vlan 77
         exit
@@ -714,10 +714,6 @@ conf t
 enable
 conf t 
     hostname SW5
-    vtp version 2
-    vtp mode server
-    vtp domain Grupo24
-    vtp usac2025
     vlan 17
         name Estudiantes
         exit
@@ -730,11 +726,13 @@ conf t
     vlan 47
         name Biblioteca
         exit
-    interface FastEthernet 0/10
+    interface GigabitEthernet 0/1
         switchport mode trunk
+        no shutdown
         exit
-    interface FastEthernet 0/11
+    interface GigabitEthernet 0/2
         switchport mode trunk
+        no shutdown
         exit
     interface FastEthernet 0/1
         switchport mode access
@@ -762,7 +760,7 @@ conf t
 enable
 conf t
     hostname R4
-    interface GigagabitEthernet 0/0.17
+    interface GigabitEthernet 0/0.17
         encapsulation dot1Q 17
         ip address 192.158.24.2 255.255.255.192
         standby 17 ip 192.158.24.1
@@ -770,7 +768,7 @@ conf t
         standby 17 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0.27
+    interface GigabitEthernet 0/0.27
         encapsulation dot1Q 27
         ip address 192.158.24.66 255.255.255.224
         standby 27 ip 192.158.24.65
@@ -778,7 +776,7 @@ conf t
         standby 27 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0.37
+    interface GigabitEthernet 0/0.37
         encapsulation dot1Q 37
         ip address 192.158.24.98 255.255.255.240
         standby 37 ip 192.158.24.97
@@ -786,7 +784,7 @@ conf t
         standby 37 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0.47
+    interface GigabitEthernet 0/0.47
         encapsulation dot1Q 47
         ip address 192.158.24.114 255.255.255.128
         standby 47 ip 192.158.24.113
@@ -794,8 +792,11 @@ conf t
         standby 47 preempt
         no shutdown
         exit
-    interface GigabitEthernet 0/0/1
+    interface GigabitEthernet 0/1
         no shutdown
+        exit
+    router ospf 1
+        network 192.158.24.0 0.0.0.255 area 0
         exit
     do write
     exit
@@ -805,7 +806,7 @@ conf t
 enable
 conf t
     hostname R5
-    interface GigagabitEthernet 0/0.17
+    interface GigabitEthernet 0/0.17
         encapsulation dot1Q 17
         ip address 192.158.24.3 255.255.255.192
         standby 17 ip 192.158.24.1
@@ -813,7 +814,7 @@ conf t
         standby 17 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0.27
+    interface GigabitEthernet 0/0.27
         encapsulation dot1Q 27
         ip address 192.158.24.67 255.255.255.224
         standby 27 ip 192.158.24.65
@@ -821,7 +822,7 @@ conf t
         standby 27 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0.37
+    interface GigabitEthernet 0/0.37
         encapsulation dot1Q 37
         ip address 192.158.24.99 255.255.255.240
         standby 37 ip 192.158.24.97
@@ -829,7 +830,7 @@ conf t
         standby 37 preempt
         no shutdown
         exit
-    interface GigagabitEthernet 0/0.47
+    interface GigabitEthernet 0/0.47
         encapsulation dot1Q 47
         ip address 192.158.24.115 255.255.255.128
         standby 47 ip 192.158.24.113
@@ -837,8 +838,11 @@ conf t
         standby 47 preempt
         no shutdown
         exit
-    interface GigabitEthernet 0/0/1
+    interface GigabitEthernet 0/1
         no shutdown
+        exit
+    router ospf 1
+        network 192.158.24.0 0.0.0.255 area 0
         exit
     do write
     exit
