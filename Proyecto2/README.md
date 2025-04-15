@@ -760,6 +760,9 @@ conf t
 enable
 conf t
     hostname R4
+    interface GigabitEthernet 0/0
+        no shutdown
+        exit
     interface GigabitEthernet 0/0.17
         encapsulation dot1Q 17
         ip address 192.158.24.2 255.255.255.192
@@ -808,6 +811,9 @@ conf t
 enable
 conf t
     hostname R5
+    interface GigabitEthernet 0/0
+        no shutdown
+        exit
     interface GigabitEthernet 0/0.17
         encapsulation dot1Q 17
         ip address 192.158.24.3 255.255.255.192
