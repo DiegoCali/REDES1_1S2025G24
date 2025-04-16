@@ -551,8 +551,7 @@ conf t
         switchport mode trunk
         exit  
     interface FastEthernet 0/10
-        switchport trunk encapsulation dot1q
-        switchport mode trunk
+        no switchport 
         ip address 10.0.0.1 255.255.255.252        
         exit  
     interface vlan 17
@@ -599,8 +598,7 @@ conf t
         switchport mode trunk
         exit  
     interface FastEthernet 0/10
-        switchport trunk encapsulation dot1q
-        switchport mode trunk
+        no switchport 
         ip address 10.0.0.5 255.255.255.252
         exit  
     interface vlan 17
