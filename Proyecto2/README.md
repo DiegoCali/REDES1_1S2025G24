@@ -544,6 +544,10 @@ conf t
 ```bash
 enable
 conf t
+    vtp version 2
+    vtp mode client
+    vtp domain Grupo24
+    vtp password usac2025
     hostname MS1
     ip routing
     interface FastEthernet 0/1
@@ -591,6 +595,10 @@ conf t
 ```bash
 enable
 conf t
+    vtp version 2
+    vtp mode client
+    vtp domain Grupo24
+    vtp password usac2025
     hostname MS2
     ip routing
     interface FastEthernet 0/1
