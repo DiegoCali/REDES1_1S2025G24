@@ -55,10 +55,10 @@
 
 | VLAN        | ID de VLAN | Equipos | ID de Red         |
 |-------------|------------|---------|-------------------|
-| Biblioteca  | 47         | 75      | 192.148.24.112/25 |
-| Estudiantes | 17         | 45      | 192.148.24.0/26   |
-| Docentes    | 27         | 25      | 192.148.24.64/27  |
-| Seguridad   | 37         | 10      | 192.148.24.96/28  |
+| Biblioteca  | 47         | 75      | 192.148.24.0/25   |
+| Estudiantes | 17         | 45      | 192.148.24.128/26 |
+| Docentes    | 27         | 25      | 192.148.24.192/27 |
+| Seguridad   | 37         | 10      | 192.148.24.224/28 |
 
 ## Switches:
 
@@ -264,16 +264,16 @@ conf t
         switchport mode trunk
         exit
     interface vlan 17
-        ip address 192.168.24.129 255.255.255.128
+        ip address 192.168.24.129 255.255.255.192
         exit
     interface vlan 27
-        ip address 192.168.24.193 255.255.255.192
+        ip address 192.168.24.193 255.255.255.224
         exit
     interface vlan 37
-        ip address 192.168.24.225 255.255.255.224
+        ip address 192.168.24.225 255.255.255.248
         exit
     interface vlan 47
-        ip address 192.168.24.1 255.255.255.248
+        ip address 192.168.24.1 255.255.255.128
         exit
     router eigrp 100
         network 192.168.24.0 0.0.0.255
@@ -381,22 +381,22 @@ conf t
         exit
     interface GigabitEthernet 0/0.17
         encapsulation dot1Q 17
-        ip address 192.148.24.1 255.255.255.192
+        ip address 192.148.24.129 255.255.255.192
         no shutdown
         exit
     interface GigabitEthernet 0/0.27
         encapsulation dot1Q 27
-        ip address 192.148.24.65 255.255.255.224
+        ip address 192.148.24.193 255.255.255.224
         no shutdown
         exit
     interface GigabitEthernet 0/0.37
         encapsulation dot1Q 37
-        ip address 192.148.24.97 255.255.255.240
+        ip address 192.148.24.225 255.255.255.240
         no shutdown
         exit
     interface GigabitEthernet 0/0.47
         encapsulation dot1Q 47
-        ip address 192.148.24.113 255.255.255.128
+        ip address 192.148.24.0 255.255.255.128
         no shutdown
         exit
     interface serial 0/0/0
@@ -412,10 +412,7 @@ conf t
         no auto-summary        
         network 10.0.0.12
         network 10.0.0.20
-        network 192.148.24.0
-        ! network 192.148.24.64
-        ! network 192.148.24.96
-        ! network 192.148.24.112        
+        network 192.148.24.0               
     do write
     exit
 ```
