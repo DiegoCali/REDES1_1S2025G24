@@ -355,7 +355,7 @@ conf t
     vtp version 2
     vtp mode client
     vtp domain Grupo24
-    vtp usac2025
+    vtp password usac2025
     interface FastEthernet 0/10
         switchport mode trunk
         exit    
@@ -400,7 +400,7 @@ conf t
         exit
     interface GigabitEthernet 0/0.47
         encapsulation dot1Q 47
-        ip address 192.148.24.0 255.255.255.128
+        ip address 192.148.24.1 255.255.255.128
         no shutdown
         exit
     interface serial 0/0/0
