@@ -140,10 +140,10 @@ predeterminadas para todas las VLANs de la red
 
 | VLAN        | ID de VLAN | Equipos | ID de Red         |
 |-------------|------------|---------|-------------------|
-| Estudiantes | 17         | 45      | 192.158.24.0/26   |
-| Docentes    | 27         | 25      | 192.158.24.64/27  |
-| Seguridad   | 37         | 10      | 192.158.24.96/28  |
-| Biblioteca  | 47         | 75      | 192.158.24.112/25 |
+| Biblioteca  | 47         | 75      | 192.158.24.0/25   |
+| Estudiantes | 17         | 45      | 192.158.24.128/26 |
+| Docentes    | 27         | 25      | 192.158.24.192/27 |
+| Seguridad   | 37         | 10      | 192.158.24.224/28 |
 
 # Configuraciones:
 
@@ -756,32 +756,32 @@ conf t
         exit
     interface GigabitEthernet 0/0.17
         encapsulation dot1Q 17
-        ip address 192.158.24.2 255.255.255.192
-        standby 17 ip 192.158.24.1
+        ip address 192.158.24.130 255.255.255.192
+        standby 17 ip 192.158.24.129
         standby 17 priority 110
         standby 17 preempt
         no shutdown
         exit
     interface GigabitEthernet 0/0.27
         encapsulation dot1Q 27
-        ip address 192.158.24.66 255.255.255.224
-        standby 27 ip 192.158.24.65
+        ip address 192.158.24.194 255.255.255.224
+        standby 27 ip 192.158.24.193
         standby 27 priority 110
         standby 27 preempt
         no shutdown
         exit
     interface GigabitEthernet 0/0.37
         encapsulation dot1Q 37
-        ip address 192.158.24.98 255.255.255.240
-        standby 37 ip 192.158.24.97
+        ip address 192.158.24.226 255.255.255.240
+        standby 37 ip 192.158.24.225
         standby 37 priority 110
         standby 37 preempt
         no shutdown
         exit
     interface GigabitEthernet 0/0.47
         encapsulation dot1Q 47
-        ip address 192.158.24.114 255.255.255.128
-        standby 47 ip 192.158.24.113
+        ip address 192.158.24.2 255.255.255.128
+        standby 47 ip 192.158.24.1
         standby 47 priority 110
         standby 47 preempt
         no shutdown
@@ -807,32 +807,32 @@ conf t
         exit
     interface GigabitEthernet 0/0.17
         encapsulation dot1Q 17
-        ip address 192.158.24.3 255.255.255.192
-        standby 17 ip 192.158.24.1
+        ip address 192.158.24.131 255.255.255.192
+        standby 17 ip 192.158.24.129
         standby 17 priority 100
         standby 17 preempt
         no shutdown
         exit
     interface GigabitEthernet 0/0.27
         encapsulation dot1Q 27
-        ip address 192.158.24.67 255.255.255.224
-        standby 27 ip 192.158.24.65
+        ip address 192.158.24.195 255.255.255.224
+        standby 27 ip 192.158.24.193
         standby 27 priority 100
         standby 27 preempt
         no shutdown
         exit
     interface GigabitEthernet 0/0.37
         encapsulation dot1Q 37
-        ip address 192.158.24.99 255.255.255.240
-        standby 37 ip 192.158.24.97
+        ip address 192.158.24.227 255.255.255.240
+        standby 37 ip 192.158.24.225
         standby 37 priority 100
         standby 37 preempt
         no shutdown
         exit
     interface GigabitEthernet 0/0.47
         encapsulation dot1Q 47
-        ip address 192.158.24.115 255.255.255.128
-        standby 47 ip 192.158.24.113
+        ip address 192.158.24.3 255.255.255.128
+        standby 47 ip 192.158.24.1  
         standby 47 priority 100
         standby 47 preempt
         no shutdown
