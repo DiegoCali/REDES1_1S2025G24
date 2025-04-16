@@ -894,18 +894,15 @@ conf t
     hostname MS3
     ip routing
     interface FastEthernet 0/1
-        switchport trunk encapsulation dot1q
-        switchport mode trunk
+        no switchport
         ip address 10.0.0.2 255.255.255.252
         exit
     interface FastEthernet 0/2
-        switchport trunk encapsulation dot1q
-        switchport mode trunk
+        no switchport
         ip address 10.0.0.5 255.255.255.252
         exit
     interface GigabitEthernet 0/1
-        switchport trunk encapsulation dot1q
-        switchport mode trunk
+        no switchport
         ip address 10.0.0.9 255.255.255.252
         exit
     router rip
@@ -950,36 +947,39 @@ conf t
 enable
 conf t
     hostname R2
+
     interface GigabitEthernet 0/0
         no shutdown
         ip address 10.0.0.25 255.255.255.252
         exit
-    interface serial 0/0/0 
+
+    interface Serial 0/0/0 
         ip address 10.0.0.18 255.255.255.252
         no shutdown
         exit
-    interface serial 0/0/1
+
+    interface Serial 0/0/1
         ip address 10.0.0.22 255.255.255.252
         no shutdown
         exit
+
     router rip 
         version 2
         no auto-summary        
         network 10.0.0.16
-        network 10.0.0.20        
-        redistribute
+        network 10.0.0.20
+        network 10.0.0.24
+        redistribute ospf 1
         exit
+
     router ospf 1
         network 10.0.0.24 0.0.0.3 area 0
-        exit
-    router rip
-        redistribute ospf metric 2
-        exit
-    router ospf 1
         redistribute rip subnets
         exit
+
     do write
-    exit
+exit
+
 ```
 
 # OSPF
