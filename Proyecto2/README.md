@@ -85,9 +85,9 @@
 | VLAN       | ID de VLAN | Equipos | ID de Red         |
 |------------|------------|---------|-------------------|
 | Estudiantes| 17         | 60      | 172.16.24.0/26    |
-| Docentes   | 27         | 35      | 172.16.24.64/26   |
-| Seguridad  | 37         | 5       | 172.16.24.128/29  |
-| Biblioteca | 47         | 50      | 172.16.24.136/26  |
+| Biblioteca | 47         | 50      | 172.16.24.64/26   |
+| Docentes   | 27         | 35      | 172.16.24.128/26  |
+| Seguridad  | 37         | 5       | 172.16.24.192/29  |
 
 ## Switches:
 
@@ -558,20 +558,20 @@ conf t
         standby 17 preempt
         no shutdown
     interface vlan 27
-        ip address 172.16.24.66 255.255.255.192
-        standby 27 ip 172.16.24.65
+        ip address 172.16.24.130 255.255.255.192
+        standby 27 ip 172.16.24.129
         standby 27 priority 110
         standby 27 preempt
         no shutdown
     interface vlan 37
-        ip address 172.16.24.130 255.255.255.248
-        standby 37 ip 172.16.24.129
+        ip address 172.16.24.194 255.255.255.248
+        standby 37 ip 172.16.24.193
         standby 37 priority 110
         standby 37 preempt
         no shutdown
     interface vlan 47
-        ip address 172.16.24.138 255.255.255.192
-        standby 47 ip 172.16.24.137
+        ip address 172.16.24.66 255.255.255.192
+        standby 47 ip 172.16.24.65
         standby 47 priority 110
         standby 47 preempt
         no shutdown
@@ -580,9 +580,6 @@ conf t
         no auto-summary
         network 10.0.0.0
         network 172.16.24.0
-        ! network 172.16.24.64
-        ! network 172.16.24.128
-        ! network 172.16.24.136
     do write
     exit
 ```
@@ -609,20 +606,20 @@ conf t
         standby 17 preempt
         no shutdown
     interface vlan 27
-        ip address 172.16.24.67 255.255.255.192
-        standby 27 ip 172.16.24.65
+        ip address 172.16.24.131 255.255.255.192
+        standby 27 ip 172.16.24.129
         standby 27 priority 100
         standby 27 preempt
         no shutdown
     interface vlan 37
-        ip address 172.16.24.131 255.255.255.248
-        standby 37 ip 172.16.24.129
+        ip address 172.16.24.195 255.255.255.248
+        standby 37 ip 172.16.24.193
         standby 37 priority 100
         standby 37 preempt
         no shutdown
     interface vlan 47
-        ip address 172.16.24.139 255.255.255.192
-        standby 47 ip 172.16.24.137
+        ip address 172.16.24.67 255.255.255.192
+        standby 47 ip 172.16.24.65
         standby 47 priority 100
         standby 47 preempt
         no shutdown
@@ -630,10 +627,7 @@ conf t
         version 2
         no auto-summary
         network 10.0.0.4
-        network 172.16.24.0
-        ! network 172.16.24.64
-        ! network 172.16.24.128
-        ! network 172.16.24.136
+        network 172.16.24.0        
         exit
     do write
     exit
