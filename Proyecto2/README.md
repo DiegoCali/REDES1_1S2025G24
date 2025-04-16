@@ -253,6 +253,10 @@ conf t
 ```bash
 enable
 conf t
+    vtp version 2
+    vtp mode client
+    vtp domain Grupo24
+    vtp password usac2025
     ip routing
     hostname MS8    
     interface GigabitEthernet 0/1
