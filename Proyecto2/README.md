@@ -24,10 +24,10 @@
 
 | VLAN        | ID de VLAN | Equipos | ID de Red         |
 |-------------|------------|---------|-------------------|
-| Estudiantes | 17         | 50      | 192.168.24.0/26   |
-| Docentes    | 27         | 20      | 192.168.24.64/27  |
-| Seguridad   | 37         | 5       | 192.168.24.96/29  |
-| Biblioteca  | 47         | 100     | 192.168.24.104/25 |
+| Biblioteca  | 47         | 100     | 192.168.24.0/25   |
+| Estudiantes | 17         | 50      | 192.168.24.128/26 |
+| Docentes    | 27         | 20      | 192.168.24.192/27 |
+| Seguridad   | 37         | 5       | 192.168.24.224/29 |
 
 ## Switches:
 
@@ -55,10 +55,10 @@
 
 | VLAN        | ID de VLAN | Equipos | ID de Red         |
 |-------------|------------|---------|-------------------|
+| Biblioteca  | 47         | 75      | 192.148.24.112/25 |
 | Estudiantes | 17         | 45      | 192.148.24.0/26   |
 | Docentes    | 27         | 25      | 192.148.24.64/27  |
 | Seguridad   | 37         | 10      | 192.148.24.96/28  |
-| Biblioteca  | 47         | 75      | 192.148.24.112/25 |
 
 ## Switches:
 
@@ -264,16 +264,16 @@ conf t
         switchport mode trunk
         exit
     interface vlan 17
-        ip address 192.168.24.1 255.255.255.192
+        ip address 192.168.24.129 255.255.255.128
         exit
     interface vlan 27
-        ip address 192.168.24.65 255.255.255.224
+        ip address 192.168.24.193 255.255.255.192
         exit
     interface vlan 37
-        ip address 192.168.24.97 255.255.255.248
+        ip address 192.168.24.225 255.255.255.224
         exit
     interface vlan 47
-        ip address 192.168.24.105 255.255.255.128
+        ip address 192.168.24.1 255.255.255.248
         exit
     router eigrp 100
         network 192.168.24.0 0.0.0.255
