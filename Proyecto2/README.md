@@ -659,7 +659,7 @@ conf t
     vlan 77
         name Server2
         exit
-    interface GigabitEthernet 0/10        
+    interface GigabitEthernet 0/1      
         switchport mode trunk
         exit 
     interface FastEthernet 0/1
