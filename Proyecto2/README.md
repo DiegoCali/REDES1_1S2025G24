@@ -807,7 +807,7 @@ conf t
         network 192.158.24.224 0.0.0.15 area 0
         network 192.158.24.0 0.0.0.127 area 0 
 
-        network 10.0.0.48 0.0.0.3 area 1
+        network 10.0.0.48 0.0.0.3 area 0
 
         exit
     do write
@@ -862,7 +862,7 @@ conf t
         network 192.158.24.192 0.0.0.31 area 0
         network 192.158.24.224 0.0.0.15 area 0
         network 192.158.24.0 0.0.0.127 area 0 
-        network 10.0.0.52 0.0.0.3 area 1
+        network 10.0.0.52 0.0.0.3 area 0
         exit
     do write
     exit
@@ -978,14 +978,14 @@ conf t
         network 10.0.0.16
         network 10.0.0.20
         network 10.0.0.24
-        redistribute ospf 1
+        redistribute ospf 1 metric 2
         exit
 
     router ospf 1
+        !R2-R3
         network 10.0.0.24 0.0.0.3 area 0
         redistribute rip subnets
         exit
-
     do write
 exit
 
@@ -1031,8 +1031,10 @@ conf t
         ip address 10.0.0.29 255.255.255.252
         exit
     router ospf 1
+        !R2-R3
         network 10.0.0.24 0.0.0.3 area 0
-        network 10.0.0.28 0.0.0.3 area 1
+        !R3-MS4
+        network 10.0.0.28 0.0.0.3 area 0
         exit
     do write
     exit
@@ -1067,9 +1069,12 @@ conf t
         no shutdown
         exit
     router ospf 1
+        !R3-MS4
         network 10.0.0.28 0.0.0.3 area 0
-        network 10.0.0.32 0.0.0.3 area 1
-        network 10.0.0.36 0.0.0.3 area 2
+        !MS4-MS5
+        network 10.0.0.32 0.0.0.3 area 0
+        !MS4-MS5
+        network 10.0.0.36 0.0.0.3 area 0
         exit
     do write
     exit
@@ -1104,8 +1109,8 @@ conf t
     ip route 192.122.24.0 255.255.255.0 10.0.0.58
     router ospf 1 
         network 10.0.0.57 0.0.0.3 area 0
-        network 10.0.0.32 0.0.0.3 area 1
-        network 10.0.0.40 0.0.0.3 area 2
+        network 10.0.0.32 0.0.0.3 area 0
+        network 10.0.0.40 0.0.0.3 area 0
         redistribute static subnets
         exit
     do write
@@ -1146,10 +1151,10 @@ conf t
         no shutdown
         exit
     router ospf 1
-        network 10.0.0.48 0.0.0.3 area 1
-        network 10.0.0.52 0.0.0.3 area 1
-        network 10.0.0.36 0.0.0.3 area 2
-        network 10.0.0.44 0.0.0.3 area 3
+        network 10.0.0.48 0.0.0.3 area 0
+        network 10.0.0.52 0.0.0.3 area 0
+        network 10.0.0.36 0.0.0.3 area 0
+        network 10.0.0.44 0.0.0.3 area 0
         exit
     do write
     exit
@@ -1181,7 +1186,7 @@ conf t
         exit
     router ospf 1
         network 10.0.0.40 0.0.0.3 area 0
-        network 10.0.0.44 0.0.0.3 area 1        
+        network 10.0.0.44 0.0.0.3 area 0        
         exit
     router eigrp 100
         no auto-summary
