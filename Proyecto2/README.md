@@ -801,8 +801,14 @@ conf t
         ip address 10.0.0.50 255.255.255.252
         exit
     router ospf 1
-        network 192.158.24.0 0.0.0.255 area 0
+
+        network 192.158.24.128 0.0.0.63 area 0
+        network 192.158.24.192 0.0.0.31 area 0
+        network 192.158.24.224 0.0.0.15 area 0
+        network 192.158.24.0 0.0.0.127 area 0 
+
         network 10.0.0.48 0.0.0.3 area 1
+
         exit
     do write
     exit
@@ -852,7 +858,10 @@ conf t
         ip address 10.0.0.54 255.255.255.252
         exit
     router ospf 1
-        network 192.158.24.0 0.0.0.255 area 0
+        network 192.158.24.128 0.0.0.63 area 0
+        network 192.158.24.192 0.0.0.31 area 0
+        network 192.158.24.224 0.0.0.15 area 0
+        network 192.158.24.0 0.0.0.127 area 0 
         network 10.0.0.52 0.0.0.3 area 1
         exit
     do write
@@ -1035,22 +1044,27 @@ conf t
     hostname MS4
     ip routing
     interface GigabitEthernet 0/1
+        no switchport
         no shutdown
         ip address 10.0.0.30 255.255.255.252
-        exit
-    interface range FastEthernet 0/1-3
-        channel-group 1 mode active
         exit
     interface port-channel 1        
         no switchport
         ip address 10.0.0.33 255.255.255.252
         exit
-    interface range FastEthernet 0/4-6
-        channel-group 2 mode active
+    interface range FastEthernet 0/1-3
+        no switchport
+        channel-group 1 mode active
+        no shutdown
         exit
     interface port-channel 2        
         no switchport
         ip address 10.0.0.37 255.255.255.252
+        exit
+    interface range FastEthernet 0/4-6
+        no switchport
+        channel-group 2 mode active
+        no shutdown
         exit
     router ospf 1
         network 10.0.0.28 0.0.0.3 area 0
@@ -1067,11 +1081,12 @@ conf t
     hostname MS5
     ip routing
     interface GigabitEthernet 0/1
+        no switchport
         no shutdown        
         ip address 10.0.0.57 255.255.255.252
         exit
     interface range FastEthernet 0/1-3
-        channel-group 1 mode passive
+        channel-group 1 mode active
         exit
     interface port-channel 1
         no switchport
@@ -1103,29 +1118,35 @@ conf t
     hostname MS6
     ip routing
     interface GigabitEthernet 0/1
+        no switchport
         no shutdown
         ip address 10.0.0.49 255.255.255.252
         exit
     interface GigabitEthernet 0/2
+        no switchport
         no shutdown
         ip address 10.0.0.53 255.255.255.252
         exit
-    interface range FastEthernet 0/1-3
-        channel-group 1 mode passive
-        exit
     interface port-channel 1
+        no switchport
+        ip address 10.0.0.45 255.255.255.252
+        exit
+    interface range FastEthernet 0/1-3
+        no switchport
+        channel-group 1 mode active
+        no shutdown
+        exit
+    interface port-channel 2
         no switchport
         ip address 10.0.0.38 255.255.255.252
         exit
     interface range FastEthernet 0/4-6
-        channel-group 2 mode active
-        exit
-    interface port-channel 2
         no switchport
-        ip address 10.0.0.45 255.255.255.252
+        channel-group 2 mode active
+        no shutdown
         exit
     router ospf 1
-        network 10.0.0.48 0.0.0.3 area 0
+        network 10.0.0.48 0.0.0.3 area 1
         network 10.0.0.52 0.0.0.3 area 1
         network 10.0.0.36 0.0.0.3 area 2
         network 10.0.0.44 0.0.0.3 area 3
@@ -1140,18 +1161,19 @@ conf t
     hostname MS7
     ip routing
     interface GigabitEthernet 0/1
+        no switchport
         no shutdown
         ip address 10.0.0.61 255.255.255.252
         exit
     interface range FastEthernet 0/1-3
-        channel-group 1 mode passive
+        channel-group 1 mode active
         exit
     interface port-channel 1
         no switchport
         ip address 10.0.0.42 255.255.255.252
         exit
     interface range FastEthernet 0/4-6
-        channel-group 2 mode passive
+        channel-group 2 mode active
         exit
     interface port-channel 2
         no switchport
