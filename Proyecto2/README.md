@@ -702,8 +702,11 @@ conf t
         encapsulation dot1Q 77
         ip address 192.122.24.1 255.255.255.0
         exit
+
+    ip route 10.0.0.56 255.255.255.252 10.0.0.57
     ip route 10.0.0.32 255.255.255.252 10.0.0.57
     ip route 10.0.0.40 255.255.255.252 10.0.0.57
+
     do write 
     exit
 ```
@@ -1090,26 +1093,31 @@ conf t
         no shutdown        
         ip address 10.0.0.57 255.255.255.252
         exit
-    interface range FastEthernet 0/1-3
-        channel-group 1 mode active
-        exit
     interface port-channel 1
         no switchport
         ip address 10.0.0.34 255.255.255.252
         exit
-    interface range FastEthernet 0/4-6
-        channel-group 2 mode active
+    interface range FastEthernet 0/1-3
+        no switchport
+        channel-group 1 mode active
         exit
-    interface port-channel 2
+    interface port-channel 3
         no switchport
         ip address 10.0.0.41 255.255.255.252
         exit
+    interface range FastEthernet 0/4-6
+        no switchport
+        channel-group 3 mode active
+        exit
+
+    ip route 10.0.0.56 255.255.255.252 10.0.0.58
     ip route 192.120.24.0 255.255.255.0 10.0.0.58
     ip route 192.121.24.0 255.255.255.0 10.0.0.58
     ip route 192.122.24.0 255.255.255.0 10.0.0.58
+
     router ospf 1 
-        network 10.0.0.57 0.0.0.3 area 0
         network 10.0.0.32 0.0.0.3 area 0
+        network 10.0.0.56 0.0.0.3 area 0
         network 10.0.0.40 0.0.0.3 area 0
         redistribute static subnets
         exit
@@ -1132,13 +1140,13 @@ conf t
         no shutdown
         ip address 10.0.0.53 255.255.255.252
         exit
-    interface port-channel 1
+    interface port-channel 4
         no switchport
         ip address 10.0.0.45 255.255.255.252
         exit
     interface range FastEthernet 0/1-3
         no switchport
-        channel-group 1 mode active
+        channel-group 4 mode active
         no shutdown
         exit
     interface port-channel 2
@@ -1170,19 +1178,23 @@ conf t
         no shutdown
         ip address 10.0.0.61 255.255.255.252
         exit
-    interface range FastEthernet 0/1-3
-        channel-group 1 mode active
+    interface port-channel 4
+        no switchport
+        ip address 10.0.0.46 255.255.255.252
         exit
-    interface port-channel 1
+    interface range FastEthernet 0/1-3
+        no switchport
+        channel-group 4 mode active
+        no shutdown
+        exit
+    interface port-channel 3
         no switchport
         ip address 10.0.0.42 255.255.255.252
         exit
     interface range FastEthernet 0/4-6
-        channel-group 2 mode active
-        exit
-    interface port-channel 2
         no switchport
-        ip address 10.0.0.46 255.255.255.252
+        channel-group 3 mode active
+        no shutdown
         exit
     router ospf 1
         network 10.0.0.40 0.0.0.3 area 0
