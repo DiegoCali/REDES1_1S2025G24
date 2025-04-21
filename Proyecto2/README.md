@@ -106,7 +106,7 @@ predeterminadas para todas las VLANs de la red
 - Password: usac2025
 
 # Central:
-![Central](./imgs/Central.png)
+![Central](./imgs/CENTRAL.png)
 
 ## Ids de Red:
 
