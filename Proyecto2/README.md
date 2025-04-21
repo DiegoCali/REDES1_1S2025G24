@@ -6,6 +6,8 @@
 
 # CUNDECH:
 
+![CUNDECH](./imgs/CUNDECH.png)
+
 ## Red:
 
 - Id de red: 192.168.24.0/24
@@ -37,6 +39,8 @@
 
 # CUNOROC:
 
+![CUNOROC](./imgs/CUNOROC.png)
+
 ## Red:
 
 - Id de red: 192.148.24.0/24
@@ -67,6 +71,7 @@
 - Password: usac2025
 
 # CUNOC:
+![CUNOC](./imgs/CUNOC.png)
 
 ## Red:
 
@@ -101,6 +106,7 @@ predeterminadas para todas las VLANs de la red
 - Password: usac2025
 
 # Central:
+![Central](./imgs/Central.png)
 
 ## Ids de Red:
 
@@ -121,6 +127,7 @@ predeterminadas para todas las VLANs de la red
 > ID de red de central 192.120.0.0/14
 
 # CUM:
+![CUM](./imgs/CUM.png)
 
 ## Red:
 
@@ -900,6 +907,7 @@ conf t
 - Método de segmentación: FSLM
 
 # RIP: 
+![RIP](./imgs/RIP.png)
 
 > [!NOTE]
 > Para la red en RIP se puede poner solo el ID de red general
@@ -1018,6 +1026,7 @@ exit
 ```
 
 # OSPF
+![OSPF](./imgs/OSPF.png)
 
 > [!NOTE]
 > Tener en cuenta de MS4 a MS7 existen EtherChannels.
@@ -1239,6 +1248,8 @@ conf t
 
 # EIGRP:
 
+![EIGRP](./imgs/EIGRP.png)
+
  De     | a     | ID de red        | Dirección IP |
 --------|-------|------------------|--------------|
 MS7     | R9    | 10.0.0.60/30     | 10.0.0.61    |
@@ -1290,3 +1301,18 @@ conf t
     do write
     exit
 ```
+
+
+## PINGS:
+
+### CUNOC - CUNOROC (Docente - Docente):
+
+![CUNOC - CUNOROC](./imgs/CUNOC%20-%20CUNOROC.png)
+
+### CUM - CUNDECH (Biblioteca - Docente):
+
+![CUM - CUNDECH](./imgs/CUM%20-%20CUNDECH.png)
+
+### CENTRAL - CUNDECH (Server - Seguridad):
+
+![CENTRAL - CUNDECH](./imgs/CENTRAL%20-%20CUNDECH.png)
